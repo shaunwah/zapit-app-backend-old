@@ -11,32 +11,33 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "merchants")
+@Table(name = "invoice_statuses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Merchant {
+public class InvoiceDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGen")
     @SequenceGenerator(name = "seqGen", allocationSize = 5)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+    private Invoice invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
     @Column(nullable = false)
-    private String identifier;
+    private Integer quantity;
 
     @Column(nullable = false)
-    private String name;
+    private Double taxRate;
 
-    private String nameAlt;
-//    private List<MerchantStore> merchantStores;
-
-    @Column(columnDefinition = "boolean default true", nullable = false)
-    private Boolean isActive = true;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean isLocked = false;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean isHidden = false;
