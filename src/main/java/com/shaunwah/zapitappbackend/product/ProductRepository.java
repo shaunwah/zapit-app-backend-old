@@ -15,8 +15,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query("select p from Product p where p.id = :productId and p.isHidden = false")
     Product findById(long productId);
 
-    @Query("update Product p set p.identifier = :product")
-    Product update(Product product);
+//    @Query("update Product p set p.identifier = :product")
+//    Product update(Product product);
     @Modifying
     @Query("update Product p set p.isHidden = true where p.id = :productId")
     int deleteById(long productId);

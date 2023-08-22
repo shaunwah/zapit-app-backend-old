@@ -45,7 +45,7 @@ public class MerchantController {
     @GetMapping("/merchant/{merchantId}")
     public ResponseEntity<Merchant> getMerchantById(@PathVariable Long merchantId, HttpServletRequest request) {
         final long USER_ID = Utilities.getUserIdFromTokenRequest(request, jwtDecoder);
-        return ResponseEntity.ofNullable(merchantService.getMerchantById(USER_ID, merchantId));
+        return ResponseEntity.ofNullable(merchantService.getMerchantById(merchantId, USER_ID));
     }
 
     @PostMapping("/merchants")
@@ -66,7 +66,7 @@ public class MerchantController {
     @DeleteMapping("/merchant/{merchantId}")
     public ResponseEntity<String> deleteMerchant(@PathVariable Long merchantId, HttpServletRequest request) {
         final long USER_ID = Utilities.getUserIdFromTokenRequest(request, jwtDecoder);
-        if (merchantService.deleteMerchant(USER_ID, merchantId)) {
+        if (merchantService.deleteMerchant(merchantId, USER_ID)) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Utilities.generateMessage("deleted").toString());
         }

@@ -18,12 +18,11 @@ public class MerchantStoreRepositoryCustom {
     @Transactional // TODO
     public void deleteAllByMerchantStoreIds(long merchantId, Set<Long> merchantStoreIds) {
         if (merchantStoreIds.isEmpty()) {
-            merchantStoreIds.add(-1L); // TODO
+            return;
         }
-        System.out.println(merchantStoreIds);
-        Query query = entityManager.createNativeQuery("DELETE FROM merchant_stores WHERE merchant_id = ? AND NOT id IN ?");
-        query.setParameter(1, merchantId)
-                .setParameter(2, merchantStoreIds)
+        Query query = entityManager.createQuery("delete from MerchantStore ms where ms.merchant.id = :merchantId and not id in :id");
+        query.setParameter("merchantId", merchantId)
+                .setParameter("id", merchantStoreIds)
                 .executeUpdate();
     }
 }

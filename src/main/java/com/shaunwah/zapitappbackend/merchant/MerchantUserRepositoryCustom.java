@@ -18,7 +18,7 @@ public class MerchantUserRepositoryCustom {
 
     @Transactional // TODO
     public void upsertAll(List<MerchantUser> merchantUsers) {
-        Query query = entityManager.createNativeQuery("INSERT IGNORE INTO merchant_users (merchant_id, user_id, roles, created_by) VALUES (?, ?, ?, ?)");
+        Query query = entityManager.createNativeQuery("insert ignore into merchant_users (merchant_id, user_id, roles, created_by) values (?, ?, ?, ?)");
         merchantUsers.forEach(merchantUser -> {
             query.setParameter(1, merchantUser.getMerchant().getId())
                     .setParameter(2, merchantUser.getUser().getId())
@@ -31,11 +31,11 @@ public class MerchantUserRepositoryCustom {
     @Transactional // TODO
     public void deleteAllByUserIds(long merchantId, Set<Long> userIds) {
         if (userIds.isEmpty()) {
-            userIds.add(-1L); // TODO
+            return;
         }
-        Query query = entityManager.createNativeQuery("DELETE FROM merchant_users WHERE merchant_id = ? AND NOT user_id IN ?");
-        query.setParameter(1, merchantId)
-                .setParameter(2, userIds)
+        Query query = entityManager.createQuery("delete from MerchantUser mu where mu.merchant.id = :merchantId and not mu.user.id in :userIds");
+        query.setParameter("merchantId", merchantId)
+                .setParameter("userIds", userIds)
                 .executeUpdate();
     }
 }

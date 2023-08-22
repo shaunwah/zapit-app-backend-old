@@ -1,6 +1,7 @@
 package com.shaunwah.zapitappbackend.product;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shaunwah.zapitappbackend.merchant.Merchant;
 import com.shaunwah.zapitappbackend.user.User;
 import jakarta.persistence.*;
@@ -9,9 +10,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
-@Table(name = "product_categories", schema = "zapit")
+@Table(name = "product_categories")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,13 +27,11 @@ public class ProductCategory {
     @Column(nullable = false)
     private String name;
 
+    private String colour;
+
     @ManyToOne
     @JoinColumn(name = "merchant_id", referencedColumnName = "id", nullable = false)
     private Merchant merchant;
-
-//    @JsonManagedReference("productCategories_productsReference")
-//    @OneToMany(mappedBy = "productCategory")
-//    private List<Product> products;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean isHidden = false;

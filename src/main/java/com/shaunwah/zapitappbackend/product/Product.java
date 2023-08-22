@@ -1,10 +1,12 @@
 package com.shaunwah.zapitappbackend.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shaunwah.zapitappbackend.merchant.Merchant;
 import com.shaunwah.zapitappbackend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,7 +38,6 @@ public class Product {
 
     private String image;
 
-//    @JsonBackReference("productCategories_productsReference")
     @ManyToOne
     @JoinColumn(name = "category", referencedColumnName = "id", nullable = false)
     private ProductCategory productCategory;

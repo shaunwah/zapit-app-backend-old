@@ -21,8 +21,8 @@ public class MerchantService {
         return merchantRepository.findAll(userId, pageable);
     }
 
-    public Merchant getMerchantById(long userId, long merchantId) {
-        return merchantRepository.findById(userId, merchantId);
+    public Merchant getMerchantById(long merchantId, long userId) {
+        return merchantRepository.findById(merchantId, userId);
     }
 
     @Transactional(rollbackFor = QueryDataException.class)
@@ -84,8 +84,8 @@ public class MerchantService {
     }
 
     @Transactional
-    public Boolean deleteMerchant(long userId, long merchantId) {
-        return merchantRepository.deleteById(userId, merchantId) > 0;
+    public Boolean deleteMerchant(long merchantId, long userId) {
+        return merchantRepository.deleteById(merchantId, userId) > 0;
     }
 
     public List<MerchantStore> getMerchantStores(Pageable pageable) {
