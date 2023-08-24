@@ -1,12 +1,10 @@
 package com.shaunwah.zapitappbackend.product;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shaunwah.zapitappbackend.merchant.Merchant;
 import com.shaunwah.zapitappbackend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -47,6 +45,12 @@ public class Product {
 
     @Column(nullable = false)
     private Double unitPrice;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(columnDefinition = "boolean default true", nullable = false)
+    private Boolean isActive = true;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean isHidden = false;

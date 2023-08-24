@@ -9,8 +9,15 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import java.io.File;
+import java.util.UUID;
 
 public final class Utilities {
+    public static String generateStringForSoftDelete(long id) {
+//        MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.SHA_256);
+        UUID uuid = UUID.randomUUID();
+        Long now = System.currentTimeMillis() / 1000L;
+        return "Deleted-%d-%d-%s".formatted(id, now, uuid.toString());
+    }
     public static String getFileExtension(File file) {
         String[] fileNames = file.getName().split("\\.");
         return fileNames[fileNames.length - 1];

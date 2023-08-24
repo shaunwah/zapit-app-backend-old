@@ -20,7 +20,7 @@ public class MerchantStoreRepositoryCustom {
         if (merchantStoreIds.isEmpty()) {
             return;
         }
-        Query query = entityManager.createQuery("delete from MerchantStore ms where ms.merchant.id = :merchantId and not id in :id");
+        Query query = entityManager.createQuery("update MerchantStore ms set ms.isHidden = true where ms.merchant.id = :merchantId and not id in :id");
         query.setParameter("merchantId", merchantId)
                 .setParameter("id", merchantStoreIds)
                 .executeUpdate();

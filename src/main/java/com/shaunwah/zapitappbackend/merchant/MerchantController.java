@@ -2,6 +2,8 @@ package com.shaunwah.zapitappbackend.merchant;
 
 import com.shaunwah.zapitappbackend.misc.QueryDataException;
 import com.shaunwah.zapitappbackend.misc.utilities.Utilities;
+import com.shaunwah.zapitappbackend.product.ProductCategory;
+import com.shaunwah.zapitappbackend.product.ProductService;
 import com.shaunwah.zapitappbackend.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.List;
 @Log
 public class MerchantController {
     private final MerchantService merchantService;
+    private final ProductService productService;
     private final JwtDecoder jwtDecoder;
 
     @GetMapping("/merchants") // if active
@@ -46,6 +49,19 @@ public class MerchantController {
     public ResponseEntity<Merchant> getMerchantById(@PathVariable Long merchantId, HttpServletRequest request) {
         final long USER_ID = Utilities.getUserIdFromTokenRequest(request, jwtDecoder);
         return ResponseEntity.ofNullable(merchantService.getMerchantById(merchantId, USER_ID));
+    }
+
+    @GetMapping("/merchant/{merchantId}/product-categories")
+    public ResponseEntity<List<ProductCategory>> getProductCategoriesByMerchantId(
+            @PathVariable Long merchantId,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "50") Integer size,
+            @RequestParam(defaultValue = "id") String sortColumn,
+            @RequestParam(defaultValue = "1") Integer sortDirection,
+            HttpServletRequest request) {
+        final long USER_ID = Utilities.getUserIdFromTokenRequest(request, jwtDecoder);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Utilities.generateSortByDirection(sortDirection), sortColumn));
+        return ResponseEntity.ok(productService.getProductCategoriesByMerchantId(merchantId, USER_ID, pageable));
     }
 
     @PostMapping("/merchants")

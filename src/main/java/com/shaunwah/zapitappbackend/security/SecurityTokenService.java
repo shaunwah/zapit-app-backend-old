@@ -2,6 +2,7 @@ package com.shaunwah.zapitappbackend.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -22,7 +23,7 @@ public class SecurityTokenService {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities()
                 .stream()
-                .map(auth -> auth.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuer("Zapit")

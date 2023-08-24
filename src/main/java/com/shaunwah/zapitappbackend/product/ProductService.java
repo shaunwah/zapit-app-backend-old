@@ -37,8 +37,8 @@ public class ProductService {
     public List<ProductCategory> getProductCategories(Pageable pageable) {
         return productCategoryRepository.findAll(pageable);
     }
-    public List<ProductCategory> getProductCategoriesByMerchantId(long merchantId, Pageable pageable) {
-        return productCategoryRepository.findAllByMerchantId(merchantId, pageable);
+    public List<ProductCategory> getProductCategoriesByMerchantId(long merchantId, long userId, Pageable pageable) {
+        return productCategoryRepository.findAllByMerchantId(merchantId, pageable); // TODO
     }
     public ProductCategory getProductCategoryById(long productCategoryId) {
         return productCategoryRepository.findById(productCategoryId);

@@ -14,6 +14,6 @@ public interface MerchantRepository extends CrudRepository<Merchant, Long> {
     @Query("select m, mu from Merchant m join MerchantUser mu on m.id = mu.merchant.id where mu.user.id = :userId and m.id = :merchantId and m.isHidden = false")
     Merchant findById(long merchantId, long userId);
     @Modifying
-    @Query("update Merchant m set m.isHidden = true where (select count(mu) from MerchantUser mu where mu.user.id = :userId and mu.merchant.id = :merchantId and mu.roles = 'ROLE_OWNER' and mu.isHidden = false) = 1 and m.isHidden = false")
+    @Query("update Merchant m set m.isHidden = true where m.id = :merchantId and (select count(mu) from MerchantUser mu where mu.user.id = :userId and mu.merchant.id = :merchantId and mu.roles = 'ROLE_OWNER' and mu.isHidden = false) = 1 and m.isHidden = false")
     Integer deleteById(long merchantId, long userId);
 }
